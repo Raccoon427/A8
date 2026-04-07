@@ -42,7 +42,7 @@ class SpritePreview(QMainWindow):
         # you define in this class.
 
         self.label = QLabel()
-        self.label.setPixmap(QPixmap.fromImage(self.image))
+        self.label.setPixmap(QPixmap.fromImage(QImage(self.frames[0])))
 
         main_layout = QVBoxLayout()
         main_layout.addWidget(self.label)
