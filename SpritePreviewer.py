@@ -1,3 +1,4 @@
+#https://github.com/Raccoon427/A8
 import math
 
 from PyQt6.QtGui import *
