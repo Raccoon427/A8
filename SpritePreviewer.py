@@ -29,6 +29,8 @@ class SpritePreview(QMainWindow):
         # runs here
         self.label = QLabel()
         self.frame_count = 0
+        self.fps = 1
+        self.is_playing = False
         # Make the GUI in the setupUI method
         self.setupUI()
 
@@ -54,18 +56,23 @@ class SpritePreview(QMainWindow):
         self.setCentralWidget(frame)
 
         # add slider
-        slider = QSlider(Qt.Orientation.Vertical, self)
-        slider.setRange(0,100)
-        slider.setValue(100)
+        self.slider = QSlider(Qt.Orientation.Vertical, self)
+        self.slider.setRange(0,100)
+        self.slider.setValue(50)
+        self.slider.setTickPosition(QSlider.TickPosition.TicksBothSides)
+        main_layout.addWidget(self.slider)
 
-        slider.setTickPosition(QSlider.TickPosition.TicksBothSides)
+        if self.is_playing:
+            self.slider.valueChanged.connect(self.slider_fps_change)
 
-        main_layout.addWidget(slider)
+        # add start button
+        start_button = QPushButton("START")
+        main_layout.addWidget(start_button)
+        start_button.clicked.connect(self.change_is_playing)
 
         # add timer
         self.timer = QTimer()
         self.timer.timeout.connect(self.animate)
-        self.timer.start(100)
 
     # animate method
     def animate(self):
@@ -74,6 +81,21 @@ class SpritePreview(QMainWindow):
         self.label.setPixmap(self.frames[self.frame_count])
         self.frame_count += 1
         self.repaint()
+
+    # slider fps change
+    def slider_fps_change(self):
+        self.fps = self.slider.value()
+        delay_in_ms = int(1000/self.fps)
+        self.timer.start(delay_in_ms)
+        print(self.fps)
+
+    # is_playing
+    def change_is_playing(self):
+        if self.is_playing:
+            self.is_playing = False
+        else:
+            self.is_playing = True
+            self.slider_fps_change()
 
     # You will need methods in the class to act as slots to connect to signals
 
@@ -85,7 +107,6 @@ def main():
     # And show it
     window.show()
     app.exec()
-
 
 if __name__ == "__main__":
     main()
