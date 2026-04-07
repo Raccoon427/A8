@@ -42,7 +42,7 @@ class SpritePreview(QMainWindow):
         # Create needed connections between the UI components and slot methods
         # you define in this class.
 
-        self.label.setPixmap(QPixmap.fromImage(QImage(self.frames[0])))
+        self.label.setPixmap(QPixmap.fromImage(self.image))
 
         main_layout = QVBoxLayout()
         main_layout.addWidget(self.label)
