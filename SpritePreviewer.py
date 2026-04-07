@@ -52,6 +52,11 @@ class SpritePreview(QMainWindow):
 
         self.setCentralWidget(frame)
 
+        # add slider
+        slider = QSlider()
+        slider.setRange(0, 100)
+        slider.setValue(100)
+        main_layout.addWidget(slider)
 
     # You will need methods in the class to act as slots to connect to signals
 
