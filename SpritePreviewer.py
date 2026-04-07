@@ -28,6 +28,7 @@ class SpritePreview(QMainWindow):
         # Add any other instance variables needed to track information as the program
         # runs here
         self.label = QLabel()
+        self.frame_count = 0
         # Make the GUI in the setupUI method
         self.setupUI()
 
@@ -53,10 +54,26 @@ class SpritePreview(QMainWindow):
         self.setCentralWidget(frame)
 
         # add slider
-        slider = QSlider()
-        slider.setRange(0, 100)
+        slider = QSlider(Qt.Orientation.Vertical, self)
+        slider.setRange(0,100)
         slider.setValue(100)
+
+        slider.setTickPosition(QSlider.TickPosition.TicksBothSides)
+
         main_layout.addWidget(slider)
+
+        # add timer
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.animate)
+        self.timer.start(100)
+
+    # animate method
+    def animate(self):
+        if self.frame_count == self.num_frames:
+            self.frame_count = 0
+        self.label.setPixmap(self.frames[self.frame_count])
+        self.frame_count += 1
+        self.repaint()
 
     # You will need methods in the class to act as slots to connect to signals
 
